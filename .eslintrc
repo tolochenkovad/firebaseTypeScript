@@ -5,14 +5,18 @@
     "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true
-    }
+    },
+    "project": "tsconfig.json",
+    "tsconfigRootDir": "."
   },
   "extends": [
     "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "plugin:react/recommended",
     "react-app",
-    "prettier",
-    "plugin:@typescript-eslint/recommended"
+    "prettier"
   ],
   "parser": "@typescript-eslint/parser",
   "env": {
@@ -23,8 +27,25 @@
     "node": true
   },
   "settings": { "react": { "version": "detect" } },
-  "plugins": ["@typescript-eslint", "import", "jsx-a11y", "react", "react-hooks", "prettier"],
+  "plugins": [
+    "@typescript-eslint",
+    "import",
+    "jsx-a11y",
+    "react",
+    "react-hooks",
+    "prettier"
+  ],
   "rules": {
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/ban-ts-ignore": "off",
+    "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/explicit-member-accessibility": "off",
+    "@typescript-eslint/indent": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/camelcase": "off",
+    "@typescript-eslint/array-type": "off",
+    "@typescript-eslint/no-empty-interface": "off",
     "array-callback-return": "warn",
     "react/jsx-boolean-value": ["warn", "never"],
     "object-curly-spacing": ["warn", "always"],
@@ -87,6 +108,7 @@
     "no-self-compare": "warn",
     "no-sequences": "warn",
     "no-shadow-restricted-names": "warn",
+    "no-shadow": "off",
     "no-sparse-arrays": "warn",
     "no-template-curly-in-string": "warn",
     "no-this-before-super": "warn",
@@ -176,7 +198,7 @@
     ],
     "no-with": "warn",
     "no-whitespace-before-property": "warn",
-    "react-hooks/exhaustive-deps": "warn",
+    "react-hooks/exhaustive-deps": "off",
     "require-yield": "warn",
     "rest-spread-spacing": ["warn", "never"],
     "strict": ["warn", "never"],
@@ -245,5 +267,5 @@
     "no-use-before-define": "off",
     "no-unused-vars": "off",
     "no-useless-constructor": "off"
-  },
+  }
 }
