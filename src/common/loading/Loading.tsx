@@ -1,16 +1,18 @@
 import React from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { withStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/styles";
+import { Theme } from "@material-ui/core";
 
-const styles = (): any => ({
+const useStyles = makeStyles((theme: Theme) => ({
   circularProgress: {
     position: "fixed",
     top: "calc(50% - 45px)",
     left: "calc(50% - 45px)",
   },
-});
+}));
 
-const Loading: React.FC<any> = ({ classes }) => {
+const Loading: React.FC = () => {
+  const classes = useStyles();
   return (
     <CircularProgress
       className={classes.circularProgress}
@@ -21,4 +23,4 @@ const Loading: React.FC<any> = ({ classes }) => {
   );
 };
 
-export default withStyles(styles)(Loading);
+export default Loading;

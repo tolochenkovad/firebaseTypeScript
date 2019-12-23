@@ -3,11 +3,11 @@ import { withRouter } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { PRODUCT_NAME, PAGE_TITLES } from "../../constans/constans";
 
-interface Props {
+type Props = {
   location: {
     pathname: string;
   };
-}
+};
 
 const HeadTitle: React.FC<Props> = ({ location }) => {
   const page = PAGE_TITLES.find(pg => location.pathname === pg.urlBase);
@@ -19,6 +19,5 @@ const HeadTitle: React.FC<Props> = ({ location }) => {
     </Helmet>
   );
 };
-
 
 export default withRouter(HeadTitle as any);

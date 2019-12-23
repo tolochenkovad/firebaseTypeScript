@@ -50,11 +50,11 @@ const styles = (theme: Theme): any => ({
   },
 });
 
-interface Props {
+type Props = {
   classes: any;
   title: string;
   desc: string;
-}
+};
 
 const ErrorWrap: React.FC<Props> = ({ classes, title, desc }) => (
   <Route

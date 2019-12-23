@@ -3,19 +3,19 @@ import { connect } from "react-redux";
 import { ROUTES } from "../routes/constans";
 import { Redirect } from "react-router-dom";
 import { getProductsFirestore } from "../app/Products/redux/selectors";
-import { DataProduct } from "../app/Products/interfaces/interfaces";
+import { DataProduct } from "../app/Products/types/types";
 
 const ProductInfo = lazy(() =>
   import("../app/Products/components/ProductInfo/ProductInfo")
 );
 
-interface OwnProps {
+type OwnProps = {
   match: {
     params: {
       id: string;
     };
   };
-}
+};
 
 type Props = OwnProps & StateProps;
 
@@ -35,15 +35,15 @@ const ProductsInfoPage: React.FC<Props> = ({ match, productFirestore }) => {
   );
 };
 
-interface StateProps {
+type StateProps = {
   productFirestore: DataProduct[];
-}
+};
 
 const mapStateToProps = (state): StateProps => ({
   productFirestore: getProductsFirestore(state),
 });
 
-export default connect<StateProps, {}, OwnProps, {}>(
+export default connect<StateProps, {}, OwnProps>(
   mapStateToProps,
   {}
 )(ProductsInfoPage);

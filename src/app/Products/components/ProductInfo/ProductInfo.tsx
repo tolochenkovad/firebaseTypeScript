@@ -6,11 +6,11 @@ import { Link } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import { isEmpty } from "react-redux-firebase";
 import { connect } from "react-redux";
-import { DataProduct } from "../../interfaces/interfaces";
+import { DataProduct } from "../../types/types";
 import { getAuth } from "../../../Auth/redux/selectors";
-import { AuthStatus } from "../../../Auth/interfaces/interfaces";
+import { AppAuth } from "../../../Auth/types/types";
 
-const useStyles = makeStyles((theme: Theme): any => ({
+const useStyles = makeStyles((theme: Theme) => ({
   container: {
     background: "#9fabdc",
     height: "100vh",
@@ -72,22 +72,20 @@ const useStyles = makeStyles((theme: Theme): any => ({
   },
 }));
 
-interface OwnProps {
+type OwnProps = {
   product: DataProduct;
-}
+};
 
-type Props = AuthStatus & OwnProps;
+type Props = AppAuth & OwnProps;
 
 const ProductInfo: React.FC<Props> = ({ product, auth }) => {
-  const classes: any = useStyles();
+  const classes = useStyles();
   return (
     <Grid className={classes.container}>
       <Grid className={classes.containerInfo}>
         <Grid className={classes.wrap}>
           <Grid className={classes.info}>
-            <Typography variant="h3" className={classes.title}>
-              {product.title}
-            </Typography>
+            <Typography variant="h3">{product.title}</Typography>
             <Grid className={classes.content}>
               <img className={classes.img} src={product.img} alt="imgItem" />
               <Grid className={classes.description}>{product.description}</Grid>
@@ -114,11 +112,8 @@ const ProductInfo: React.FC<Props> = ({ product, auth }) => {
   );
 };
 
-const mapStateToProps = (state): AuthStatus => ({
+const mapStateToProps = state => ({
   auth: getAuth(state),
 });
 
-export default connect<AuthStatus, {}, OwnProps, {}>(
-  mapStateToProps,
-  {}
-)(ProductInfo);
+export default connect<AppAuth, {}, OwnProps>(mapStateToProps, {})(ProductInfo);

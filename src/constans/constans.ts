@@ -15,6 +15,6 @@ export const FORM = {
   addProduct: "addProduct",
 };
 
-export const firebaseState = {
+export const COLLECTIONS = {
   products: "productsCloud",
 };

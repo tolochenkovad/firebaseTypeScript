@@ -1,3 +1,3 @@
-import { AppState } from "../../../interfaces/interfaces";
+import { AppState } from "../../../types/types";
 
-export const getAuth = (state: AppState): object => state.firebase.auth;
+export const getAuth = (state: AppState) => state.firebase.auth;

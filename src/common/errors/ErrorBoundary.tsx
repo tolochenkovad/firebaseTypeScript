@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import Grid from "@material-ui/core/Grid";
 import { Typography } from "@material-ui/core";
 
-interface State {
+type State = {
   hasEror?: boolean;
   error: string | null;
-}
+};
 
 class ErrorBoundary extends Component<any, State> {
   state = { hasError: false, error: null };

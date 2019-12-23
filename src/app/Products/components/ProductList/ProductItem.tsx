@@ -5,12 +5,9 @@ import ListItem from "@material-ui/core/ListItem";
 import { Theme, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import Button from "@material-ui/core/Button";
-import {
-  DataProduct,
-  DeleteProductAction,
-} from "../../interfaces/interfaces";
+import { DataProduct, ProductListActions } from "../../types/types";
 
-const useStyles = makeStyles((theme: Theme): any => ({
+const useStyles = makeStyles((theme: Theme) => ({
   title: {
     textAlign: "center",
     marginBottom: theme.spacing(3.75),
@@ -79,13 +76,13 @@ const useStyles = makeStyles((theme: Theme): any => ({
   },
 }));
 
-interface Props {
+type Props = {
   product: DataProduct;
-  deleteProducts: (id: string | undefined) => DeleteProductAction;
-}
+  deleteProducts: ProductListActions["deleteProductRequestAction"];
+};
 
 const ProductItem: React.FC<Props> = ({ product, deleteProducts }) => {
-  const classes: any = useStyles();
+  const classes = useStyles();
   return (
     <ListItem className={classes.boxItem}>
       <Grid className={classes.imgBox}>
@@ -100,7 +97,7 @@ const ProductItem: React.FC<Props> = ({ product, deleteProducts }) => {
         <Grid>{product.location}</Grid>
 
         <Grid className={classes.infoBox}>
-          <Grid className={classes.date}>{product.date}</Grid>
+          <Grid>{product.date}</Grid>
           <Button
             component={Link}
             className={classes.btn}

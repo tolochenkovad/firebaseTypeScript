@@ -1,5 +1,5 @@
-import { AppState } from "../../../interfaces/interfaces";
-import { DataProduct } from "../interfaces/interfaces";
+import { AppState } from "../../../types/types";
+import { DataProduct } from "../types/types";
 
 export const getNewProductData = (state: AppState): any => {
   if (state.form.addProduct === undefined) {
@@ -10,4 +10,5 @@ export const getNewProductData = (state: AppState): any => {
 export const getProductsFirestore = (state: AppState): Array<DataProduct> =>
   state.products.products;
 
-export const getLoadingProducts = (state: AppState ): boolean => state.products.loading;
+export const getLoadingProducts = (state: AppState): boolean =>
+  state.products.loading;

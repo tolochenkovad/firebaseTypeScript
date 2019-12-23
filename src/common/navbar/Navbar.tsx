@@ -9,7 +9,7 @@ import { isEmpty } from "react-redux-firebase";
 import { connect } from "react-redux";
 import { Theme } from "@material-ui/core";
 import { getAuth } from "../../app/Auth/redux/selectors";
-import { AuthStatus } from "../../app/Auth/interfaces/interfaces";
+import { AppAuth } from "../../app/Auth/types/types";
 
 const useStyles = makeStyles((theme: Theme) => ({
   box: {
@@ -28,9 +28,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-type Props = AuthStatus;
-
-const Navbar: React.FC<Props> = ({ auth }) => {
+const Navbar: React.FC<AppAuth> = ({ auth }) => {
   const classes = useStyles();
 
   return (
@@ -43,8 +41,8 @@ const Navbar: React.FC<Props> = ({ auth }) => {
   );
 };
 
-const mapStateToProps = (state): AuthStatus => ({
+const mapStateToProps = (state): AppAuth => ({
   auth: getAuth(state),
 });
 
-export default connect<AuthStatus, {}, {}, {}>(mapStateToProps, {})(Navbar);
+export default connect<AppAuth>(mapStateToProps, {})(Navbar);

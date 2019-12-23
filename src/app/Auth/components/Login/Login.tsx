@@ -9,13 +9,13 @@ import { Redirect } from "react-router-dom";
 import { toastr } from "react-redux-toastr";
 import LoginStyles from "./style";
 import { getAuth } from "../../redux/selectors";
-import { AuthStatus } from "../../interfaces/interfaces";
+import { AppAuth } from "../../types/types";
 
 const onSucessLogin = (): void => {
   toastr.success("Successfully authorized", "");
 };
 
-type Props = AuthStatus;
+type Props = AppAuth;
 
 const Login: React.FC<Props> = ({ auth }) => {
   const firebase = useFirebase();
@@ -52,8 +52,8 @@ const Login: React.FC<Props> = ({ auth }) => {
   );
 };
 
-const mapStateToProps = (state): AuthStatus => ({
+const mapStateToProps = (state): AppAuth => ({
   auth: getAuth(state),
 });
 
-export default connect<AuthStatus, {}, {}, {}>(mapStateToProps, {})(Login);
+export default connect<AppAuth>(mapStateToProps, {})(Login);

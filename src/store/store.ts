@@ -10,7 +10,7 @@ import "firebase/storage";
 import "firebase/firestore";
 import { firebaseConfig } from "../api/firebase";
 import { reduxFirestore } from "redux-firestore";
-import { AppState } from "../interfaces/interfaces";
+import { AppState } from "../types/types";
 
 firebase.initializeApp(firebaseConfig);
 

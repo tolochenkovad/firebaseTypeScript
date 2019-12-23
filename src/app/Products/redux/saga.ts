@@ -1,54 +1,62 @@
-import { takeLatest, put, call, select } from "redux-saga/effects";
+import { takeLatest, put, call, select, take } from "redux-saga/effects";
 import {
   addDoc,
   deleteDoc,
   fetchCollection,
-  getShapShot,
 } from "../../../api/firebase/firebaseApi";
 import { getNewProductData } from "./selectors";
 import { toastr } from "react-redux-toastr";
 import {
-  ADD_PRODUCT_FAILED,
   ADD_PRODUCT_REQUEST,
-  DELETE_PRODUCT_FAILED,
   DELETE_PRODUCT_REQUEST,
-  SET_PRODUCTS_FAILED,
   SET_PRODUCTS_REQUEST,
-  SET_PRODUCTS_SUCCESS,
 } from "./types";
-import { DataProduct, DeleteProductAction } from "../interfaces/interfaces";
-import { firebaseState } from "../../../constans/constans";
+import { DataProduct } from "../types/types";
+import { COLLECTIONS } from "../../../constans/constans";
+import * as actions from "./actions";
+import { eventChannel } from "redux-saga";
+
+function createItemsChannel() {
+  return eventChannel(emit => {
+    fetchCollection(COLLECTIONS.products).onSnapshot(
+      querySnapshot => {
+        const items: unknown[] = [];
+        querySnapshot.forEach((doc: any) => {
+          items.push({
+            ...doc.data(),
+            id: doc.id,
+          });
+        });
+        emit(items);
+      },
+      () => emit(false)
+    );
+    return () => {};
+  });
+}
 
 function* setProducts() {
   try {
-    const snapShot = yield call(() => getShapShot(firebaseState.products));
-    const allProducts = yield call(() => fetchCollection(snapShot));
-    yield put({
-      type: SET_PRODUCTS_SUCCESS,
-      payload: allProducts,
-    });
+    const channel = yield call(createItemsChannel);
+    while (true) {
+      const data = yield take(channel);
+      yield put(actions.setProductsSuccessAction(data));
+    }
   } catch (error) {
     yield call(() => toastr.error(error.message, ""));
-    yield put({
-      type: SET_PRODUCTS_FAILED,
-      error: error.message,
-    });
+    yield put(actions.setProductsErrorAction(error));
   }
 }
 
-function* deleteProduct({ payload }: DeleteProductAction) {
+function* deleteProduct(
+  action: ReturnType<typeof actions.deleteProductRequestAction>
+) {
   try {
-    yield call(() => deleteDoc(firebaseState.products, payload));
+    yield call(() => deleteDoc(COLLECTIONS.products, action.payload));
     yield call(() => toastr.success("Successfully removed", ""));
-    yield put({
-      type: SET_PRODUCTS_REQUEST,
-    });
   } catch (error) {
     yield call(() => toastr.error(error.message, ""));
-    yield put({
-      type: DELETE_PRODUCT_FAILED,
-      error: error.message,
-    });
+    yield put(actions.deleteProductErrorAction(error.message));
   }
 }
 
@@ -63,17 +71,11 @@ function* addProduct() {
       price: productFormData.price,
       location: productFormData.location,
     };
-    yield call(() => addDoc(firebaseState.products, newProduct));
+    yield call(() => addDoc(COLLECTIONS.products, newProduct));
     yield call(() => toastr.success("Successfully added", ""));
-    yield put({
-      type: SET_PRODUCTS_REQUEST,
-    });
   } catch (error) {
     yield call(() => toastr.error(error.message, ""));
-    yield put({
-      type: ADD_PRODUCT_FAILED,
-      error: error.message,
-    });
+    yield put(actions.addProductErrorAction(error.message));
   }
 }
 

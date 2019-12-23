@@ -1,38 +1,51 @@
-import { Field, reduxForm, InjectedFormProps } from "redux-form";
+import {
+  Field,
+  reduxForm,
+  InjectedFormProps,
+  WrappedFieldProps,
+} from "redux-form";
 import Button from "@material-ui/core/Button";
 import React from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import TextField from "@material-ui/core/TextField";
-import { addProductAction } from "../../redux/actions";
-import {
-  AddProductActions,
-  DataProduct
-} from "../../interfaces/interfaces";
+import { AddProductActions, DataProduct } from "../../types/types";
 import { FORM } from "../../../../constans/constans";
+import { makeStyles } from "@material-ui/styles";
+import { Theme } from "@material-ui/core";
+import { addProductRequestAction } from "../../redux/actions";
 
-const renderTextField: React.FC<any> = ({
+const useStyles = makeStyles((theme: Theme) => ({
+  formBox: {
+    marginTop: theme.spacing(3.75),
+    border: "1px solid black",
+    padding: theme.spacing(3.75),
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  btn: {
+    marginTop: theme.spacing(2.5),
+  },
+}));
+
+const renderTextField: React.FC<WrappedFieldProps & { label: string }> = ({
   label,
   input,
   ...custom
-}): React.ReactComponentElement<any> => (
-  <TextField label={label} placeholder={label} {...input} {...custom} />
-);
+}) => <TextField label={label} placeholder={label} {...input} {...custom} />;
 
-interface OwnProps {
-  classes: any;
-}
+type Props = InjectedFormProps<DataProduct> & AddProductActions;
 
-type Props = OwnProps & AddProductActions;
-
-const AddProduct: React.FC<InjectedFormProps<DataProduct> & Props> = ({
-  classes,
+const AddProduct: React.FC<Props> = ({
   handleSubmit,
-  addProductAction,
+  reset,
+  addProductRequestAction,
 }) => {
   const addToFirebase = () => {
-    addProductAction();
+    addProductRequestAction();
   };
+  const classes = useStyles();
 
   return (
     <form className={classes.formBox} onSubmit={handleSubmit(addToFirebase)}>
@@ -60,12 +73,15 @@ const AddProduct: React.FC<InjectedFormProps<DataProduct> & Props> = ({
       <Button variant="contained" type="submit" className={classes.btn}>
         Add
       </Button>
+      <Button variant="contained" className={classes.btn} onClick={reset}>
+        Reset
+      </Button>
     </form>
   );
 };
 
 export default compose<any>(
-  connect<{}, AddProductActions, OwnProps, {}>(null, { addProductAction }),
+  connect(null, { addProductRequestAction }),
   reduxForm({
     form: FORM.addProduct,
   })

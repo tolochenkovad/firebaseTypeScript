@@ -12,10 +12,13 @@ import {
 import AddProduct from "../AddProduct/AddProduct";
 import Loading from "../../../../common/loading/Loading";
 import { Theme } from "@material-ui/core";
-import { DataProduct, ProductListActions } from "../../interfaces/interfaces";
-import { deleteProductAction, setProductsAction } from "../../redux/actions";
+import { DataProduct, ProductListActions } from "../../types/types";
+import {
+  deleteProductRequestAction,
+  setProductsRequestAction,
+} from "../../redux/actions";
 
-const useStyles = makeStyles((theme: Theme): any => ({
+const useStyles = makeStyles((theme: Theme) => ({
   containerList: {
     display: "flex",
     flexDirection: "column",
@@ -42,16 +45,20 @@ const useStyles = makeStyles((theme: Theme): any => ({
 type Props = StateProps & ProductListActions;
 
 const ProductList: React.FC<Props> = ({
-  setProductsAction,
+  setProductsRequestAction,
   loadingProducts,
   productFirestore,
-  deleteProductAction,
+  deleteProductRequestAction,
 }) => {
   useEffect(() => {
-    setProductsAction();
-  }, []);
+    setProductsRequestAction();
+  }, [setProductsRequestAction]);
 
-  const classes: any = useStyles();
+  const classes = useStyles();
+
+  const deleteProducts = (id?: string) => {
+    !id ? console.log("Id is undefined!") : deleteProductRequestAction(id);
+  };
 
   return (
     <Grid className={classes.box}>
@@ -60,7 +67,7 @@ const ProductList: React.FC<Props> = ({
           productFirestore.map(product => (
             <ProductItem
               product={product}
-              deleteProducts={deleteProductAction}
+              deleteProducts={deleteProducts}
               key={product.id}
             />
           ))
@@ -70,24 +77,23 @@ const ProductList: React.FC<Props> = ({
           <Loading />
         )}
         <Typography variant="h4">Add Product</Typography>
-        <AddProduct classes={classes} />
+        <AddProduct />
       </List>
     </Grid>
   );
 };
 
-interface StateProps {
+type StateProps = {
   productFirestore: DataProduct[];
   loadingProducts: boolean;
-}
+};
 
 const mapStateToProps = (state): StateProps => ({
   productFirestore: getProductsFirestore(state),
   loadingProducts: getLoadingProducts(state),
 });
 
-
-export default connect<StateProps, ProductListActions, {}, {}>(mapStateToProps, {
-  setProductsAction,
-  deleteProductAction,
+export default connect<StateProps, ProductListActions>(mapStateToProps, {
+  setProductsRequestAction,
+  deleteProductRequestAction,
 })(ProductList);
