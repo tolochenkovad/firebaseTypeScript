@@ -45,6 +45,7 @@ function* setProducts() {
   } catch (error) {
     yield call(() => toastr.error(error.message, ""));
     yield put(actions.setProductsErrorAction(error));
+    yield put(actions.setProductsErrorAction(error));
   }
 }
 

@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware, compose, Store } from "redux";
+import { createStore, applyMiddleware, compose } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import createSagaMiddleware from "redux-saga";
 import reducers from "../reducers/reducers";
@@ -10,12 +10,13 @@ import "firebase/storage";
 import "firebase/firestore";
 import { firebaseConfig } from "../api/firebase";
 import { reduxFirestore } from "redux-firestore";
-import { AppState } from "../types/types";
+
+export type AppState = ReturnType<typeof reducers>
 
 firebase.initializeApp(firebaseConfig);
 
 const sagaMiddleware = createSagaMiddleware();
-const store: Store<AppState> = createStore(
+const store = createStore(
   reducers,
   composeWithDevTools(
     compose(reduxFirestore(firebase), applyMiddleware(sagaMiddleware))
