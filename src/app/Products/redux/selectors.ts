@@ -1,5 +1,5 @@
-import { AppState } from "../../../types/types";
 import { DataProduct } from "../types/types";
+import { AppState } from "../../../store/store";
 
 export const getNewProductData = (state: AppState): any => {
   if (state.form.addProduct === undefined) {
