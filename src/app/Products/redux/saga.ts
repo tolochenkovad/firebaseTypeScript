@@ -12,9 +12,10 @@ import {
   SET_PRODUCTS_REQUEST,
 } from "./types";
 import { DataProduct } from "../types/types";
-import { COLLECTIONS } from "../../../constans/constans";
+import { COLLECTIONS, FORM } from "../../../constans/constans";
 import * as actions from "./actions";
 import { eventChannel } from "redux-saga";
+import { reset } from "redux-form";
 
 function createItemsChannel() {
   return eventChannel(emit => {
@@ -73,6 +74,7 @@ function* addProduct() {
       location: productFormData.location,
     };
     yield call(() => addDoc(COLLECTIONS.products, newProduct));
+    yield put(reset(FORM.addProduct));
     yield call(() => toastr.success("Successfully added", ""));
   } catch (error) {
     yield call(() => toastr.error(error.message, ""));

@@ -20,6 +20,7 @@ const Routes: React.FC = () => {
           <Switch>
             <Route exact path={ROUTES.main} component={ProductsListPage} />
             <Route path={ROUTES.login} component={LoginPage} />
+            <Route path={ROUTES.signUp} component={LoginPage} />
             <Route
               path={ROUTES.dynamic.product()}
               component={ProductsInfoPage}

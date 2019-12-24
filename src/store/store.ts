@@ -11,7 +11,7 @@ import "firebase/firestore";
 import { firebaseConfig } from "../api/firebase";
 import { reduxFirestore } from "redux-firestore";
 
-export type AppState = ReturnType<typeof reducers>
+export type AppState = ReturnType<typeof reducers>;
 
 firebase.initializeApp(firebaseConfig);
 
