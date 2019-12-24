@@ -13,6 +13,8 @@ export const PAGE_TITLES = [
 
 export const FORM = {
   addProduct: "addProduct",
+  login: "login",
+  signUP: "signUP",
 };
 
 export const COLLECTIONS = {

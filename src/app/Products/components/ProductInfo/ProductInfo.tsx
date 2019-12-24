@@ -9,6 +9,7 @@ import { connect } from "react-redux";
 import { DataProduct } from "../../types/types";
 import { getAuth } from "../../../Auth/redux/selectors";
 import { AppAuth } from "../../../Auth/types/types";
+import { ROUTES } from "../../../../routes/constans";
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
@@ -70,6 +71,11 @@ const useStyles = makeStyles((theme: Theme) => ({
   author: {
     marginRight: theme.spacing(2.5),
   },
+  authBox: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+  },
 }));
 
 type OwnProps = {
@@ -103,9 +109,14 @@ const ProductInfo: React.FC<Props> = ({ product, auth }) => {
             <Grid className={classes.author}>You are authorized</Grid>
           </Grid>
         ) : (
-          <Button component={Link} to="/login">
-            Login to view contacts
-          </Button>
+          <Grid className={classes.authBox}>
+            <Button component={Link} to={ROUTES.login}>
+              Login to view contacts
+            </Button>
+            <Button component={Link} to={ROUTES.signUp}>
+              Or sign Up
+            </Button>
+          </Grid>
         )}
       </Grid>
     </Grid>

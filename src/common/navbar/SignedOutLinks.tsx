@@ -23,6 +23,9 @@ const SignedOutLinks: React.FC = () => {
 
   return (
     <Grid className={classes.box}>
+      <NavLink className={classes.link} to={ROUTES.signUp}>
+        Sign Up
+      </NavLink>
       <NavLink className={classes.link} to={ROUTES.login}>
         Login
       </NavLink>
